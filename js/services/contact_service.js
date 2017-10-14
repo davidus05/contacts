@@ -209,7 +209,7 @@ angular.module('contactsApp')
 				filename: newUid + '.vcf'
 			}
 		).then(function(xhr) {
-			newContact.setETag(xhr.getResponseHeader('ETag'));
+			newContact.setETag(xhr.getResponseHeader('OC-ETag'));
 			contactsCache.put(newUid, newContact);
 			if (fromImport !== true) {
 				notifyObservers('create', newUid);
@@ -301,7 +301,7 @@ angular.module('contactsApp')
 
 		// update contact on server
 		return DavClient.updateCard(contact.data, {json: true}).then(function(xhr) {
-			var newEtag = xhr.getResponseHeader('ETag');
+			var newEtag = xhr.getResponseHeader('OC-ETag');
 			contact.setETag(newEtag);
 			notifyObservers('update', contact.uid());
 		}).catch(function() {
